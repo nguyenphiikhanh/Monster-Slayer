@@ -18,7 +18,6 @@
                 <div class="healthbar">
                     <div class="healthbar text-center" :style="{width: chibiHealth+'%'}"
                         style="background-color: red; margin: 0; color: white;">
-                        {{chibiHealth}}
                     </div>
                 </div>
             </div>
@@ -29,7 +28,6 @@
                 <div class="healthbar">
                     <div class="healthbar text-center" :style="{width: monsterHealth+'%'}"
                         style="background-color: red; margin: 0; color: white;">
-                        {{monsterHealth}}
                     </div>
                 </div>
             </div>
@@ -41,10 +39,10 @@
         </section>
         <section class="row controls" v-else>
             <div class="small-12 columns">
-                <button id="attack">ATTACK</button>
-                <button id="special-attack">SPECIAL ATTACK</button>
-                <button id="heal">HEAL</button>
-                <button id="give-up">GIVE UP</button>
+                <button id="attack" @click="attack">ATTACK</button>
+                <button id="special-attack" @click="specialAttack">SPECIAL ATTACK</button>
+                <button id="heal" @click="heal">HEAL</button>
+                <button id="give-up" @click="giveUp">GIVE UP</button>
             </div>
         </section>
         <section class="row log">
@@ -59,6 +57,7 @@
     </div>
 
     <script src="./app.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </body>
 
 </html>
