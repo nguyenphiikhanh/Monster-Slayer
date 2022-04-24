@@ -12,6 +12,10 @@ new Vue({
             this.monsterHealth = 100;
         },
         attack() {
+            // win check
+            if(this.winCheck()){
+                return;
+            }
             //monster
             var maxDamage = 10;
             var minDamage = 4;
@@ -20,33 +24,8 @@ new Vue({
 
 
             //chibi
-            // maxDamage = 20;
-            // minDamage = 8;
-            var damage = Math.max(Math.floor(Math.random() * maxDamage + 1, minDamage));
+            damage = Math.max(Math.floor(Math.random() * maxDamage + 1, minDamage));
             this.chibiHealth -= damage;
-
-
-            if (this.chibiHealth <= 0) { //monster win
-                this,chibiHealth = 0;
-                Swal.fire(
-                    'You lose the Monster!',
-                    "Don't give up! Play again ♥",
-                    'warning'
-                )
-                this.gameIsRunning = false
-                return;
-            }
-            if (this.monsterHealth <= 0) { // chibi win
-                this.monsterHealth = 0;
-                Swal.fire({
-                    title: 'Configuration!',
-                    text:"You've won the Monster!",
-                    icon: 'success',
-                })
-                this.gameIsRunning = false
-                return;
-            }
-
         },
         specialAttack() {
 
@@ -56,6 +35,28 @@ new Vue({
         },
         giveUp() {
 
-        }
+        },
+        winCheck() {
+            if (this.chibiHealth <= 0) { //monster win
+                this.chibiHealth = 0;
+                Swal.fire(
+                    'You lose the Monster!',
+                    "Don't give up! Play again ♥",
+                    'warning'
+                )
+                this.gameIsRunning = false
+                return true;
+            }
+            if (this.monsterHealth <= 0) { // chibi win
+                this.monsterHealth = 0;
+                Swal.fire({
+                    title: 'Configuration!',
+                    text: "You've won the Monster!",
+                    icon: 'success',
+                })
+                this.gameIsRunning = false
+                return true;
+            }
+        },
     }
 })
