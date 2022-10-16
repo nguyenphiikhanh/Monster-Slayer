@@ -14,7 +14,7 @@
             <img src="img/chibi.png" alt="" style="height: 500px; width: 100%">
 
             <div class="healthbar">
-                <div class="healthbar text-center" style="background-color: red; margin: 0; color: white; width: 100%;">
+                <div class="healthbar text-center" style="background-color: red; margin: 0; color: white;" :style="{width: slayerHeal + '%'}">
 
                 </div>
             </div>
@@ -24,20 +24,20 @@
             <img src="img/monster.png" alt="" style="height: 500px; width: 100%">
             
             <div class="healthbar">
-                <div class="healthbar text-center" style="background-color: red; margin: 0; color: white; width: 100%;">
+                <div class="healthbar text-center" style="background-color: red; margin: 0; color: white;" :style="{width: monsterHeal + '%'}">
 
                 </div>
             </div>
         </div>
     </section>
-    <section class="row controls" @click="isNewgame = true" v-if="!isNewgame">
+    <section class="row controls" v-if="!isNewgame">
         <div class="small-12 columns">
-            <button id="start-game">START NEW GAME</button>
+            <button id="start-game" @click="startNewGame()">START NEW GAME</button>
         </div>
     </section>
     <section class="row controls" v-if="isNewgame">
         <div class="small-12 columns">
-            <button id="attack">ATTACK</button>
+            <button id="attack" @click="attack()">ATTACK</button>
             <button id="special-attack">SPECIAL ATTACK</button>
             <button id="heal">HEAL</button>
             <button id="give-up">GIVE UP</button>
@@ -47,7 +47,7 @@
         <div class="small-12 columns">
             <ul>
                 <li>
-
+                    {{resultMessage}}
                 </li>
             </ul>
         </div>
@@ -59,6 +59,41 @@ var app = new Vue({
   el: '#app',
   data: {
     isNewgame: false,
+    slayerHeal: 100,
+    monsterHeal: 100,
+    resultMessage: ''
+  },
+  methods:{
+    attack(){
+        this.stayerAttack();
+        this.monsterAttack();
+        if(this.slayerHeal <= 0){  // slayer thua
+            this.slayerHeal = 0;
+            this.resultMessage = 'Ngoc anh bi dam chet';
+            this.isNewgame = false;
+            return;
+        }
+        if(this.monsterHeal <= 0){  // monster thua
+            this.monsterHeal = 0;
+            this.resultMessage = 'Khanh dep trai';
+            this.isNewgame = false;
+            return;
+        }
+    },
+    stayerAttack(){
+        let slayerDame = Math.floor(Math.random() * 101); // slayer đấm ngọc anh cao nhất được 20 dame
+        this.monsterHeal -= slayerDame;
+    },
+    monsterAttack(){
+        let monsterDame = Math.floor(Math.random() * 21); // monster đấm khánh cao nhất được 100 dame
+        this.slayerHeal -= monsterDame;
+    },
+    startNewGame(){
+        this.isNewgame = true;
+        this.slayerHeal = 100;
+        this.monsterHeal = 100;
+        this.resultMessage = "";
+    }
   }
 })
 </script>
